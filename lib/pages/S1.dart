@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'UserInputPage.dart';
+
 final firestore = FirebaseFirestore.instance;
 
 class S1 extends StatefulWidget {
@@ -29,16 +31,34 @@ class _S1State extends State<S1> {
   @override
   Widget build(BuildContext context) {
     if (fbData != null) {
-      return ListView.builder(
-          itemCount: fbData.length,
-          itemBuilder: (c, i) {
-            return Column(children: [
-              fbData[i]["img"].runtimeType == String
-                  ? Image.network(fbData[i]["img"])
-                  : Image.file(fbData[i]["img"]),
-              Text(fbData[i]["name"])
-            ]);
-          });
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('피드'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (c) {
+                    return UserInputPage();
+                  }));
+                },
+                icon: Icon(Icons.add))
+          ],
+        ),
+        body: ListView.builder(
+            itemCount: fbData.length,
+            itemBuilder: (c, i) {
+              return Column(children: [
+                fbData[i]["img"].runtimeType == String
+                    ? Image.network(
+                        fbData[i]["img"],
+                      )
+                    : Image.file(
+                        fbData[i]["img"],
+                      ),
+                Text(fbData[i]["name"])
+              ]);
+            }),
+      );
     } else {
       return Text('로딩중임');
     }
