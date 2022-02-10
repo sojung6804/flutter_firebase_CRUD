@@ -12,7 +12,7 @@ class S1 extends StatefulWidget {
 class _S1State extends State<S1> {
   var fbData;
 
-  getData() async {
+  Future<void> getData() async {
     var result = await firestore.collection('profile').get();
     setState(() {
       fbData = result.docs;
@@ -28,6 +28,19 @@ class _S1State extends State<S1> {
 
   @override
   Widget build(BuildContext context) {
-    return Text("feed");
+    if (fbData != null) {
+      return ListView.builder(
+          itemCount: fbData.length,
+          itemBuilder: (c, i) {
+            return Column(children: [
+              fbData[i]["img"].runtimeType == String
+                  ? Image.network(fbData[i]["img"])
+                  : Image.file(fbData[i]["img"]),
+              Text(fbData[i]["name"])
+            ]);
+          });
+    } else {
+      return Text('로딩중임');
+    }
   }
 }
