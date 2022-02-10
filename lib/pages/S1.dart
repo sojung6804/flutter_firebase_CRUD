@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'UserInputPage.dart';
 
 final firestore = FirebaseFirestore.instance;
@@ -36,7 +36,10 @@ class _S1State extends State<S1> {
           title: Text('피드'),
           actions: [
             IconButton(
-                onPressed: () {
+                onPressed: () async {
+                  var picker = ImagePicker();
+                  dynamic image =
+                      await picker.pickImage(source: ImageSource.gallery);
                   Navigator.push(context, MaterialPageRoute(builder: (c) {
                     return UserInputPage();
                   }));

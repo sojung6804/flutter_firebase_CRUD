@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterfirebase/pages/S1.dart';
 import 'package:flutterfirebase/pages/S2.dart';
 import 'firebase_options.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
