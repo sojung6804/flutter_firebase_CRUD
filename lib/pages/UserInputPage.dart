@@ -10,6 +10,22 @@ class UserInputPage extends StatefulWidget {
 class _UserInputPageState extends State<UserInputPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: Column(
+      children: [
+        // Image.file(),
+        TextField(onChanged: (text) {}),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.close)),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.send))
+      ],
+    ));
   }
 }
