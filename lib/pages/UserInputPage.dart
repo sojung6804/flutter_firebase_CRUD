@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UserInputPage extends StatefulWidget {
-  const UserInputPage({Key? key}) : super(key: key);
-
+  const UserInputPage({Key? key, this.userImage}) : super(key: key);
+  final userImage;
   @override
   _UserInputPageState createState() => _UserInputPageState();
 }

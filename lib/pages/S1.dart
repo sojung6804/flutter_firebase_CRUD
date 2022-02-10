@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'UserInputPage.dart';
 
 final firestore = FirebaseFirestore.instance;
+
 var picker = ImagePicker();
 
 class S1 extends StatefulWidget {
@@ -22,7 +23,6 @@ class _S1State extends State<S1> {
     setState(() {
       fbData = result.docs;
     });
-    print(fbData);
   }
 
   @override
@@ -31,17 +31,20 @@ class _S1State extends State<S1> {
     getData();
   }
 
-  var pickFile;
+  var userImage;
+  final picker = ImagePicker();
 
-  Future _getImage() async {
-    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      dynamic ii = File(pickedFile.path);
-      setState(() {
-        pickFile = ii;
-      });
-    }
-    print(pickedFile);
+  Future getImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        userImage = File(pickedFile.path);
+        print(userImage);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   @override
@@ -53,10 +56,10 @@ class _S1State extends State<S1> {
           actions: [
             IconButton(
                 onPressed: () {
-                  _getImage();
+                  getImage();
 
                   Navigator.push(context, MaterialPageRoute(builder: (c) {
-                    return UserInputPage();
+                    return UserInputPage(userImage: userImage);
                   }));
                 },
                 icon: Icon(Icons.add))
