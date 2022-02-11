@@ -31,21 +31,9 @@ class _S1State extends State<S1> {
     getData();
   }
 
-  var userImage;
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        userImage = File(pickedFile.path);
-        print(userImage);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  var pfimg;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +43,19 @@ class _S1State extends State<S1> {
           title: Text('피드'),
           actions: [
             IconButton(
-                onPressed: () {
-                  getImage();
+                onPressed: () async {
+                  var picker = ImagePicker();
+                  dynamic image =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  if (image != null) {
+                    dynamic ii = File(image.path);
+                    setState(() {
+                      pfimg = ii;
+                    });
+                  }
 
                   Navigator.push(context, MaterialPageRoute(builder: (c) {
-                    return UserInputPage(userImage: userImage);
+                    return UserInputPage(pfimg: pfimg);
                   }));
                 },
                 icon: Icon(Icons.add))

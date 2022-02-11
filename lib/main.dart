@@ -6,7 +6,6 @@ import 'package:flutterfirebase/pages/S1.dart';
 import 'package:flutterfirebase/pages/S2.dart';
 import 'package:flutterfirebase/store/store1.dart';
 import 'firebase_options.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
