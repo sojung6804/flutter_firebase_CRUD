@@ -4,19 +4,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterfirebase/pages/S1.dart';
 import 'package:flutterfirebase/pages/S2.dart';
+import 'package:flutterfirebase/store/store1.dart';
 import 'firebase_options.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(primarySwatch: Colors.pink),
-    home: HomePage(),
-  ));
+  runApp(ChangeNotifierProvider(
+      create: (c) => Store1(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(primarySwatch: Colors.pink),
+          home: HomePage())));
 }
 
 class HomePage extends StatefulWidget {

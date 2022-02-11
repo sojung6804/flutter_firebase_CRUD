@@ -13,7 +13,7 @@ class _UserInputPageState extends State<UserInputPage> {
     return Scaffold(
         body: Column(
       children: [
-        // Image.file(),
+        // Image.file(widget.userImage),
         TextField(onChanged: (text) {}),
         IconButton(
             onPressed: () {
