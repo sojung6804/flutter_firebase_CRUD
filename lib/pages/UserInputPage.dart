@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+final db = FirebaseFirestore.instance;
 final storage = FirebaseStorage.instance;
 
 class UserInputPage extends StatefulWidget {
@@ -20,7 +21,6 @@ class _UserInputPageState extends State<UserInputPage> {
     return Scaffold(
         body: Column(
       children: [
-        Image.file(widget.pfimg),
         TextField(
           controller: inputT,
         ),
@@ -31,9 +31,7 @@ class _UserInputPageState extends State<UserInputPage> {
             icon: Icon(Icons.close)),
         IconButton(
             onPressed: () {
-              var storageRef = storage.ref();
-              var storagePath = storageRef.child('image/' + inputT.text);
-              var storageUpload = storagePath.putFile(widget.pfimg);
+              db.collection('profile').add({'name': inputT});
 
               Navigator.pop(context);
             },

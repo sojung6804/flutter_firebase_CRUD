@@ -16,6 +16,8 @@ class S1 extends StatefulWidget {
 }
 
 class _S1State extends State<S1> {
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w500);
   var fbData;
 
   Future<void> getData() async {
@@ -65,14 +67,10 @@ class _S1State extends State<S1> {
             itemCount: fbData.length,
             itemBuilder: (c, i) {
               return Column(children: [
-                fbData[i]["img"].runtimeType == String
-                    ? Image.network(
-                        fbData[i]["img"],
-                      )
-                    : Image.file(
-                        fbData[i]["img"],
-                      ),
-                Text(fbData[i]["name"])
+                Text(
+                  fbData[i]["name"],
+                  style: optionStyle,
+                )
               ]);
             }),
       );
