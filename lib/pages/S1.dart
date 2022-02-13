@@ -66,13 +66,26 @@ class _S1State extends State<S1> {
         body: ListView.builder(
             itemCount: fbData.length,
             itemBuilder: (c, i) {
-              return Column(children: [
-                Image.network(fbData[i]["img"]),
-                Text(
-                  fbData[i]["name"],
-                  style: optionStyle,
-                )
-              ]);
+              return Container(
+                decoration: ShapeDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(fbData[i]["img"]),
+                        fit: BoxFit.fitWidth),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.circular(20))),
+                width: double.maxFinite,
+                height: 300,
+                child: Align(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      fbData[i]["name"],
+                      style: optionStyle,
+                    ),
+                  ),
+                  alignment: Alignment.bottomCenter,
+                ),
+              );
             }),
       );
     } else {
