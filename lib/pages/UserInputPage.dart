@@ -15,7 +15,7 @@ class UserInputPage extends StatefulWidget {
 class _UserInputPageState extends State<UserInputPage> {
   var inputT = TextEditingController();
 
-  goFire() {
+  goFire() async {
     var storageRef = storage.ref();
     var savePath = storageRef.child('image/' + inputT.text);
     var uploading = savePath.putFile(widget.pfimg);
@@ -23,6 +23,7 @@ class _UserInputPageState extends State<UserInputPage> {
     var saveData = {'name': inputT.text};
     try {
       db.collection('profile').add(saveData).then((result) => print(result));
+      (await uploading).ref.getDownloadURL().then((url) => {print(url)});
     } catch (e, s) {
       print(s);
     }
