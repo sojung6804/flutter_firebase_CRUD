@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'UserInputPage.dart';
 import 'detailPage.dart';
 
-final firestore = FirebaseFirestore.instance;
+final db = FirebaseFirestore.instance;
 
 var picker = ImagePicker();
 
@@ -22,10 +22,14 @@ class _S1State extends State<S1> {
   var fbData;
 
   Future<void> getData() async {
-    var result = await firestore.collection('profile').get();
-    setState(() {
-      fbData = result.docs;
-    });
+    try {
+      var result = await db.collection('profile').get();
+      setState(() {
+        fbData = result.docs;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
