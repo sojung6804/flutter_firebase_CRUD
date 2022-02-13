@@ -67,6 +67,7 @@ class _S1State extends State<S1> {
             itemCount: fbData.length,
             itemBuilder: (c, i) {
               return Column(children: [
+                Image.network(fbData[i]["img"]),
                 Text(
                   fbData[i]["name"],
                   style: optionStyle,
