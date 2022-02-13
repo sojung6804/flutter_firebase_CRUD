@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'UserInputPage.dart';
+import 'detailPage.dart';
 
 final firestore = FirebaseFirestore.instance;
 
@@ -66,27 +67,34 @@ class _S1State extends State<S1> {
         body: ListView.builder(
             itemCount: fbData.length,
             itemBuilder: (c, i) {
-              return Container(
-                margin: EdgeInsets.all(10),
-                decoration: ShapeDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(fbData[i]["img"]),
-                        fit: BoxFit.fitWidth),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusDirectional.circular(20))),
-                width: double.maxFinite,
-                height: 300,
-                child: Align(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      fbData[i]["name"],
-                      style: optionStyle,
+              return GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    decoration: ShapeDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(fbData[i]["img"]),
+                            fit: BoxFit.fitWidth),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadiusDirectional.circular(20))),
+                    width: double.maxFinite,
+                    height: 300,
+                    child: Align(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          fbData[i]["name"],
+                          style: optionStyle,
+                        ),
+                      ),
+                      alignment: Alignment.bottomCenter,
                     ),
                   ),
-                  alignment: Alignment.bottomCenter,
-                ),
-              );
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (c) {
+                      return detailPage();
+                    }));
+                  });
             }),
       );
     } else {
