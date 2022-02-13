@@ -92,7 +92,7 @@ class _S1State extends State<S1> {
                   ),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (c) {
-                      return detailPage();
+                      return detailPage(fbData: fbData);
                     }));
                   });
             }),
