@@ -8,7 +8,6 @@ final storage = FirebaseStorage.instance;
 class UserInputPage extends StatefulWidget {
   const UserInputPage({Key? key, this.pfimg}) : super(key: key);
   final pfimg;
-
   @override
   _UserInputPageState createState() => _UserInputPageState();
 }
@@ -16,10 +15,24 @@ class UserInputPage extends StatefulWidget {
 class _UserInputPageState extends State<UserInputPage> {
   var inputT = TextEditingController();
 
+  goFire() {
+    var storageRef = storage.ref();
+    var savePath = storageRef.child('image/' + inputT.text);
+    var uploading = savePath.putFile(widget.pfimg);
+
+    var saveData = {'name': inputT.text};
+    try {
+      db.collection('profile').add(saveData).then((result) => print(result));
+    } catch (e, s) {
+      print(s);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextField(
           controller: inputT,
@@ -31,7 +44,7 @@ class _UserInputPageState extends State<UserInputPage> {
             icon: Icon(Icons.close)),
         IconButton(
             onPressed: () {
-              db.collection('profile').add({'name': inputT});
+              goFire();
 
               Navigator.pop(context);
             },
