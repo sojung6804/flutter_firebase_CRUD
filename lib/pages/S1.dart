@@ -67,6 +67,7 @@ class _S1State extends State<S1> {
             itemCount: fbData.length,
             itemBuilder: (c, i) {
               return Container(
+                margin: EdgeInsets.all(10),
                 decoration: ShapeDecoration(
                     image: DecorationImage(
                         image: NetworkImage(fbData[i]["img"]),
