@@ -20,10 +20,11 @@ class _UserInputPageState extends State<UserInputPage> {
     var savePath = storageRef.child('image/' + inputT.text);
     var uploading = savePath.putFile(widget.pfimg);
 
-    var saveData = {'name': inputT.text};
     try {
-      db.collection('profile').add(saveData).then((result) => print(result));
-      (await uploading).ref.getDownloadURL().then((url) => {print(url)});
+      (await uploading).ref.getDownloadURL().then((url) {
+        var saveData = {'name': inputT.text, 'img': url};
+        db.collection('profile').add(saveData);
+      });
     } catch (e, s) {
       print(s);
     }
