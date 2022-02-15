@@ -21,7 +21,9 @@ class _detailPageState extends State<detailPage> {
             style: TextStyle(color: Colors.black, fontSize: 20),
           ),
           centerTitle: true,
-          background: Image.network(widget.fbData[0]['img']),
+          background: Image.network(
+            widget.fbData[0]['img'],
+          ),
         ),
       ),
     ]));

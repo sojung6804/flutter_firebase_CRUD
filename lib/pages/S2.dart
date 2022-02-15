@@ -71,7 +71,8 @@ class _S2State extends State<S2> {
                               ),
                               centerTitle: true,
                               background: Image.network(
-                                  snapshot.data[index].data()['img']),
+                                  snapshot.data[index].data()['img'],
+                                  fit: BoxFit.cover),
                             ),
                           ),
                         ]));
