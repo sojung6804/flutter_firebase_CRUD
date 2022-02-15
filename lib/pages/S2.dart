@@ -13,6 +13,9 @@ class S2 extends StatefulWidget {
 }
 
 class _S2State extends State<S2> {
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w500);
+
   Future getposts() async {
     var firestore = FirebaseFirestore.instance;
     QuerySnapshot qn = await firestore.collection("profile").get();
@@ -64,17 +67,24 @@ class _S2State extends State<S2> {
                             pinned: false, // appbar 완전히 사라지게
                             expandedHeight: 250.0, // appbar 크기
                             flexibleSpace: FlexibleSpaceBar(
-                              title: Text(
-                                snapshot.data[index].data()['name'],
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
                               centerTitle: true,
                               background: Image.network(
                                   snapshot.data[index].data()['img'],
                                   fit: BoxFit.cover),
                             ),
                           ),
+                          SliverToBoxAdapter(
+                            child: Column(
+                              children: [
+                                Text(
+                                    '이름 : ${snapshot.data[index].data()['name']}',
+                                    style: optionStyle),
+                                Text(
+                                    '나이 : ${snapshot.data[index].data()['age']}',
+                                    style: optionStyle)
+                              ],
+                            ),
+                          )
                         ]));
                       }));
                     });
