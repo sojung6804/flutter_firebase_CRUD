@@ -36,7 +36,11 @@ class _UserInputPageState extends State<UserInputPage> {
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.file(widget.pfimg),
+        widget.pfimg.runtimeType == String
+            ? Image.file(widget.pfimg)
+            : Image.asset('assets/sin.png'),
+
+        // Image.file(widget.pfimg),
         TextField(
           controller: inputT,
         ),
