@@ -24,6 +24,7 @@ class _S1State extends State<S1> {
   Future<void> getData() async {
     try {
       var result = await db.collection('profile').get();
+      print(result.docs);
       setState(() {
         fbData = result.docs;
       });
