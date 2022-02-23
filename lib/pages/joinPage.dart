@@ -7,22 +7,23 @@ import 'UserInputPage2.dart';
 final auth = FirebaseAuth.instance;
 final firestore = FirebaseFirestore.instance;
 
-class loginPage extends StatefulWidget {
-  const loginPage({Key? key}) : super(key: key);
+class joinPage extends StatefulWidget {
+  const joinPage({Key? key}) : super(key: key);
 
   @override
-  _loginPageState createState() => _loginPageState();
+  _joinPageState createState() => _joinPageState();
 }
 
-class _loginPageState extends State<loginPage> {
-  var inputID = TextEditingController();
+class _joinPageState extends State<joinPage> {
+  var inputE = TextEditingController();
   var inputPW = TextEditingController();
-  var inputNick = TextEditingController();
+  var inputName = TextEditingController();
 
-  getLogin() async {
+  getJoin(id, pw, name) async {
     try {
-      var result = await auth.createUserWithEmailAndPassword(
-          email: "sojung@naver.com", password: "123456");
+      var result =
+          await auth.createUserWithEmailAndPassword(email: id, password: pw);
+      result.user?.updateDisplayName(name);
       print(result.user);
     } catch (e) {
       print(e);
@@ -39,19 +40,19 @@ class _loginPageState extends State<loginPage> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
-              controller: inputNick,
+              controller: inputName,
               style: TextStyle(fontSize: 25),
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: '닉네임',
+                  hintText: '이름',
                   hintStyle: TextStyle(color: Colors.grey)),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
-              controller: inputID,
+              controller: inputE,
               style: TextStyle(fontSize: 25),
               textAlign: TextAlign.center,
               decoration: InputDecoration(
@@ -75,7 +76,7 @@ class _loginPageState extends State<loginPage> {
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () async {
-              getLogin();
+              getJoin(inputE.text, inputPW.text, inputName.text);
               Navigator.push(context, MaterialPageRoute(builder: (c) {
                 return UserInputPage2();
               }));
@@ -85,7 +86,7 @@ class _loginPageState extends State<loginPage> {
               decoration: BoxDecoration(
                   border: Border.all(width: 2, color: Colors.grey),
                   borderRadius: BorderRadius.circular(12)),
-              child: Text('로그인', style: TextStyle(fontSize: 30)),
+              child: Text('회원가입', style: TextStyle(fontSize: 30)),
             ),
           ),
         ],
