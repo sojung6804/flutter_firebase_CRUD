@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterfirebase/pages/S1.dart';
 import 'package:flutterfirebase/pages/S2.dart';
+import 'package:flutterfirebase/pages/dataLoading.dart';
 import 'package:flutterfirebase/pages/joinPage.dart';
 import 'package:flutterfirebase/store/store1.dart';
 import 'firebase_options.dart';
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w500);
-  final List<Widget> _children = [joinPage(), S1(), S2()];
+  final List<Widget> _children = [joinPage(), S1(), S2(), dataLoading()];
 
   void onTabTapped(int index) {
     setState(() {
@@ -60,6 +61,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'dataLoading',
           ),
         ],
       ),
