@@ -18,7 +18,10 @@ class _S2State extends State<S2> {
 
   Future getposts() async {
     var firestore = FirebaseFirestore.instance;
-    QuerySnapshot qn = await firestore.collection("profile").get();
+    QuerySnapshot qn = await firestore
+        .collection("profile")
+        .where("name", isEqualTo: "김남길")
+        .get();
     return qn.docs;
   }
 
