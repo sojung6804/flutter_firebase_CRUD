@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'dart:async';
+import 'package:flutter_tindercard/flutter_tindercard.dart';
 
 import 'detailPage.dart';
 
@@ -18,15 +19,23 @@ class _S2State extends State<S2> {
 
   Future getposts() async {
     var firestore = FirebaseFirestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection("profile")
-        .where("name", isEqualTo: "김남길")
-        .get();
+    QuerySnapshot qn = await firestore.collection("dating").get();
     return qn.docs;
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> welcomeImages = [
+      "https://image.newsis.com/2021/05/18/NISI20210518_0000749062_web.jpg",
+      "http://cdnimage.dailian.co.kr/news/201704/news_1492649247_627464_m_1.jpg",
+      "https://w.namu.la/s/544797e62178da4ade717cc1ea6d99c56fb11a6b11230a44e81e49bca2f3166f242d8a89360d6a35d53196e1cdee790d5149aaba77d3ad6eee0abf580e427742faf36ee42b5404e3dbccdcf0d75952dca94e15f2b3fb62ed3cbeebdde66b17f5",
+      "https://file2.nocutnews.co.kr/newsroom/image/2019/07/19/20190719214943166897_0_777_1166.jpg",
+      "https://img.etoday.co.kr/pto_db/2020/02/600/20200226105956_1429035_800_1200.jpg",
+      "https://news.nateimg.co.kr/orgImg/su/2020/07/02/366028_460825_0034.jpg"
+    ];
+
+    CardController controller;
+
     return Container(
       child: FutureBuilder(
         future: getposts(),
@@ -36,62 +45,67 @@ class _S2State extends State<S2> {
               child: CircularProgressIndicator(),
             );
           } else {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: ShapeDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  snapshot.data[index].data()["img"]),
-                              fit: BoxFit.fitWidth),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(20))),
-                      width: double.maxFinite,
-                      height: 300,
-                      child: Align(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            snapshot.data[index].data()['name'],
-                          ),
-                        ),
-                        alignment: Alignment.bottomCenter,
+            return Padding(
+              padding: EdgeInsets.only(bottom: 120),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: TinderSwapCard(
+                  swipeUp: true,
+                  swipeDown: true,
+                  orientation: AmassOrientation.BOTTOM,
+                  totalNum: snapshot.data.length,
+                  stackNum: 2,
+                  swipeEdge: 4.0,
+                  maxWidth: MediaQuery.of(context).size.width,
+                  maxHeight: MediaQuery.of(context).size.width,
+                  minWidth: MediaQuery.of(context).size.width * 0.9,
+                  minHeight: MediaQuery.of(context).size.width * 0.9,
+                  cardBuilder: (context, index) => Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 5,
+                              spreadRadius: 2)
+                        ]),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        snapshot.data[index].data()["img"]),
+                                    fit: BoxFit.cover)),
+                          )
+                        ],
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (c) {
-                        return Scaffold(
-                            body: CustomScrollView(slivers: <Widget>[
-                          SliverAppBar(
-                            pinned: false, // appbar 완전히 사라지게
-                            expandedHeight: 250.0, // appbar 크기
-                            flexibleSpace: FlexibleSpaceBar(
-                              centerTitle: true,
-                              background: Image.network(
-                                  snapshot.data[index].data()['img'],
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          SliverToBoxAdapter(
-                            child: Column(
-                              children: [
-                                Text(
-                                    '이름 : ${snapshot.data[index].data()['name']}',
-                                    style: optionStyle),
-                                Text(
-                                    '나이 : ${snapshot.data[index].data()['age']}',
-                                    style: optionStyle)
-                              ],
-                            ),
-                          )
-                        ]));
-                      }));
-                    });
-              },
+                  ),
+                  cardController: controller = CardController(),
+                  swipeUpdateCallback:
+                      (DragUpdateDetails details, Alignment align) {
+                    if (align.x < 0) {
+                      // print('Nope');
+                    } else if (align.x > 0) {
+                      // print('like');
+                    }
+                  },
+                  swipeCompleteCallback:
+                      (CardSwipeOrientation orientation, int index) {
+                    print(orientation.toString());
+                    if (orientation == CardSwipeOrientation.LEFT) {
+                      print('Nope');
+                    } else if (orientation == CardSwipeOrientation.RIGHT) {
+                      print('like');
+                    }
+                  },
+                ),
+              ),
             );
           }
         },
